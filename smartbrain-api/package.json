@@ -1,0 +1,28 @@
+{
+  "name": "smartbrain-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test1": "nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/M4Anton/FaceDetectionApp.git"
+  },
+  "author": "M4Anton",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/M4Anton/FaceDetectionApp/issues"
+  },
+  "homepage": "https://github.com/M4Anton/FaceDetectionApp#readme",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}

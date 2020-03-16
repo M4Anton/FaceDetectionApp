@@ -35,6 +35,15 @@ function App() {
 	const [boxes, setBoxes] = useState([]);
 	const [route, setRoute] = useState('signin');
 	const [isSignedIn, setSignIn] = useState(false);
+	const [user, setUser] = useState({
+		id: '',
+		name: '',
+		email: '',
+		entries: 0,
+		joined: ''
+	})
+
+
 
 	const calculateFaceLocation = (data) =>{
 		const clarifaiFace = data.outputs[0].data.regions;
@@ -74,9 +83,35 @@ function App() {
 			//URL
 			input
 			)
-			.then(response => displayFaceBox(calculateFaceLocation(response)))
+			.then(response => {
+				if(response){	
+
+					fetch('http://localhost:3001/image',{
+						method: 'PUT',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({
+							id: user.id
+						})
+				})
+				.then(res => res.json())
+				.then(count => {
+					return setUser({
+						id: user.id,
+						name: user.name,
+						email: user.email,
+						entries: count,
+						joined: user.joined
+					});
+				});
+
+				}				
+				displayFaceBox(calculateFaceLocation(response))
+			})
 			.catch(err => console.log(err));
 			}
+
 
 	const onRouteChange = (route) => {
 		if(route === 'home'){
@@ -87,6 +122,8 @@ function App() {
 		setRoute(route);
 
 	}
+
+	const login = (user) => setUser(user);
 
 
   return (
@@ -99,7 +136,7 @@ function App() {
       { route === 'home' ?
     	<div>
 	      <Logo />
-	      <Rank />
+	      <Rank user = {user}/>
 	      <ImageLinkForm 
 	      	onInputChange = {onInputChange}
 	      	onButtonSubmit = {onButtonSubmit}
@@ -111,9 +148,15 @@ function App() {
         </div>
     	: (
     		route === 'register' ?
-    		<Register onRouteChange = {onRouteChange} />
+    		<Register 
+    		onRouteChange = {onRouteChange} 
+    		login = {login}
+    		/>
     		:
-    		<Signin onRouteChange = {onRouteChange} />
+    		<Signin 
+    		onRouteChange = {onRouteChange} 
+    		login = {login}
+    		/>
     		) 
     }
     </div>
